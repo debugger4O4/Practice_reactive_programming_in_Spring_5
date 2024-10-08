@@ -4,12 +4,14 @@ import org.junit.jupiter.api.Test;
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
+import rx.schedulers.Schedulers;
 
 import java.util.Collections;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
@@ -96,6 +98,22 @@ public class RxJavaExamplesTest {
 
     // Отмена подписки
     @Test
+    public void managingSubscription() {
+        AtomicReference<Subscription> subscription = new AtomicReference<>();
+        subscription.set(Observable.interval(100, MILLISECONDS)
+                .subscribe(e -> {
+                    System.out.println("Received: " + e);
+                    if (e >= 3) {
+                        subscription.get().unsubscribe();
+                    }
+                }));
+
+        do {
+            // Сделать что-то полезное...
+        } while (!subscription.get().isUnsubscribed());
+    }
+
+    @Test
     public void managingSubscription2() throws InterruptedException {
         /*
          CountDownLatch используется при ситуации, когда подписчик интересуется лишь частью событий и потребляет их, пока
@@ -127,5 +145,30 @@ public class RxJavaExamplesTest {
                 Observable.just("1", "2", "3"),
                 (x, y) -> x + y
         ).forEach(System.out::println);
+    }
+
+    /*
+    Асинхронный рабочий процесс
+     */
+    @Test
+    public void deferSynchronousRequest() throws Exception {
+        String query = "query";
+        Observable.fromCallable(() -> doSlowSyncRequest(query))
+                /*
+                subscribeOn() определяет, какой планировщик Scheduler(реактивный аналог ExecutorService в java)
+                управляет обработкой потока данных
+                 */
+                .subscribeOn(Schedulers.io())
+                .subscribe(this::processResult);
+
+        Thread.sleep(1000);
+    }
+
+    private String doSlowSyncRequest(String query) {
+        return "result";
+    }
+
+    private void processResult(String result) {
+        System.out.println(Thread.currentThread().getName() + ": " + result);
     }
 }
