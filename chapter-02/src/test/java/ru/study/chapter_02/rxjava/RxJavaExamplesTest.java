@@ -115,4 +115,17 @@ public class RxJavaExamplesTest {
         // Отписка
         subscription.unsubscribe();
     }
+
+    /**
+     * Преобразование потоков и диаграммы Marble
+     * Опервтор zip - объединение элементов из двух параллельных потоков
+     */
+    @Test
+    public void zipOperatorExample() {
+        Observable.zip(
+                Observable.just("A", "B", "C"),
+                Observable.just("1", "2", "3"),
+                (x, y) -> x + y
+        ).forEach(System.out::println);
+    }
 }
