@@ -3,10 +3,15 @@ package ru.study.chapter_02.rxjava;
 import org.junit.jupiter.api.Test;
 import rx.Observable;
 import rx.Subscriber;
+import rx.Subscription;
 
 import java.util.Collections;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 
 /**
@@ -70,5 +75,44 @@ public class RxJavaExamplesTest {
          */
         Observable.concat(hello, world, Observable.just("!"))
                 .forEach(System.out::print);
+    }
+
+    /**
+     * Генерация последовательности и асинхронных событий
+     */
+    // Генерирует асинхронные последователности, например через определенные интервалы времени
+    @Test
+    public void timeBasedSequenceExample() throws InterruptedException {
+        Observable.interval(1, TimeUnit.SECONDS)
+                .subscribe(e -> System.out.println("Received: " + e));
+
+        /*
+         Если убрать Thread.sleep(...), то приложение завершится и ничего не выведется. Это объясняется тем, что события
+         генерируются и потребляются отдельным фоновым потоком -> нужно вызвать sleep(), чтобы предотвратить
+         преждевременное завершение главного потока
+         */
+        Thread.sleep(5000);
+    }
+
+    // Отмена подписки
+    @Test
+    public void managingSubscription2() throws InterruptedException {
+        /*
+         CountDownLatch используется при ситуации, когда подписчик интересуется лишь частью событий и потребляет их, пока
+         не получит внешний сигнал CountDownLatch(3)
+         */
+        CountDownLatch externalSignal = new CountDownLatch(3);
+
+        /*
+        Входящий поток генерирует события каждые 100мс и образует бесконечную последовательность - 0, 1, 2, 3...(3)
+         */
+        Subscription subscription = Observable
+                .interval(100, MILLISECONDS)
+                .subscribe(System.out::println);
+
+        // Приводит к отмене подписки
+        externalSignal.await(450, MILLISECONDS);
+        // Отписка
+        subscription.unsubscribe();
     }
 }
