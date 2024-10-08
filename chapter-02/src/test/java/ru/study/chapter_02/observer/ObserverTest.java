@@ -2,8 +2,12 @@ package ru.study.chapter_02.observer;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+
 import static org.mockito.Mockito.times;
 
+/**
+ * Примеры использования шаблона "Наблюдатель"
+ */
 public class ObserverTest {
     @Test
     public void observersHandleEventsFromSubjectWithAssertions() {
