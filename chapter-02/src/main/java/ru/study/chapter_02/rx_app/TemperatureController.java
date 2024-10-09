@@ -31,6 +31,11 @@ public class TemperatureController {
 
     @RequestMapping(value = "/temperature-stream", method = RequestMethod.GET)
     public SseEmitter events(HttpServletRequest request) {
+        /*
+        При реактивной реализации контроллер не должен забоиться об уничтожении ненужных экземпляров SseEmitter и о
+        синхронизации. Реактивная реализация сама управляет получением TemperatureSensor и их публикацией. Эта реализация
+        не использует шину событий из Spring, поэтому она более переносима и может тестироваться без инициализации контекста
+         */
         RxSeeEmitter emitter = new RxSeeEmitter();
         log.info("[{}] Rx SSE stream opened for client: {}",
                 emitter.getSessionId(), request.getRemoteAddr());
