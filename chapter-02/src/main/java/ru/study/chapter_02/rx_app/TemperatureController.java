@@ -16,6 +16,9 @@ import rx.Subscriber;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * Публикация конечной точки SSE
+ */
 @RestController
 public class TemperatureController {
     private static final Logger log = LoggerFactory.getLogger(TemperatureController.class);
