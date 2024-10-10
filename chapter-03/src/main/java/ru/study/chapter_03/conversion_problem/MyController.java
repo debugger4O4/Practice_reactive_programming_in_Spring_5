@@ -1,11 +1,10 @@
 package ru.study.chapter_03.conversion_problem;
 
-import org.springframework.http.MediaType;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -47,10 +46,10 @@ public class MyController {
 //        return AsyncAdapters.toListenable(databaseClient.store(completionStage));
 //    }
 
-    @RequestMapping(produces = MediaType.TEXT_PLAIN_VALUE)
+    @GetMapping("/hello")
     public Mono<String> requestData() {
         WebClient httpClient = WebClient.create();
-        URI uri = UriComponentsBuilder.fromHttpUrl("http://localhost:8080/hello").build().toUri();
+        URI uri = UriComponentsBuilder.fromHttpUrl("http://localhost:8080").build().toUri();
         return httpClient.get()
                 .uri(uri)
                 .exchange()
