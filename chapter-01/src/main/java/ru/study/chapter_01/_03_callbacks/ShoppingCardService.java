@@ -1,8 +1,8 @@
-package ru.study.chapter_01.callbacks;
+package ru.study.chapter_01._03_callbacks;
 
 
-import ru.study.chapter_01.commons.Input;
-import ru.study.chapter_01.commons.Output;
+import ru.study.chapter_01._02_commons.Input;
+import ru.study.chapter_01._02_commons.Output;
 
 import java.util.function.Consumer;
 

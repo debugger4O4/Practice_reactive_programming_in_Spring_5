@@ -1,10 +1,10 @@
-package ru.study.chapter_01.communication;
+package ru.study.chapter_01._01_communication;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-import ru.study.chapter_01.commons.ExamplesCollection;
+import ru.study.chapter_01._02_commons.ExamplesCollection;
 
 /**
  * Пример блокировки связи

@@ -1,6 +1,6 @@
-package ru.study.chapter_01.completion_stage;
+package ru.study.chapter_01._04_completion_stage;
 
-import ru.study.chapter_01.commons.Input;
+import ru.study.chapter_01._02_commons.Input;
 
 public class OrdersService {
     private final ShoppingCardService shoppingCardService;

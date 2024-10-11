@@ -1,4 +1,4 @@
-package ru.study.chapter_01.commons;
+package ru.study.chapter_01._02_commons;
 
 public class ExamplesCollection {
     private String value;

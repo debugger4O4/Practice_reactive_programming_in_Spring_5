@@ -1,9 +1,9 @@
-package ru.study.chapter_01.spring_futures;
+package ru.study.chapter_01._06_spring_futures;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.study.chapter_01.commons.ExamplesCollection;
+import ru.study.chapter_01._02_commons.ExamplesCollection;
 
 @RestController
 @RequestMapping("api/v2/resource/b")

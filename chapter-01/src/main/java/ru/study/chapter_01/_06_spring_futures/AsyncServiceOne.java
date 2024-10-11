@@ -1,11 +1,11 @@
-package ru.study.chapter_01.spring_futures;
+package ru.study.chapter_01._06_spring_futures;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-import ru.study.chapter_01.commons.ExamplesCollection;
+import ru.study.chapter_01._02_commons.ExamplesCollection;
 
 /**
  * Spring 4 MVC долгое время не поддерживал CompletionStage и для тех же целей педлагал собственную реализацию

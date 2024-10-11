@@ -1,7 +1,7 @@
-package ru.study.chapter_01.completion_stage;
+package ru.study.chapter_01._04_completion_stage;
 
-import ru.study.chapter_01.commons.Input;
-import ru.study.chapter_01.commons.Output;
+import ru.study.chapter_01._02_commons.Input;
+import ru.study.chapter_01._02_commons.Output;
 
 import java.util.concurrent.CompletionStage;
 
