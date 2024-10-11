@@ -1,4 +1,4 @@
-package ru.study.chapter_02.search_engine;
+package ru.study.chapter_02._03_search_engine;
 
 import java.net.URL;
 

@@ -1,4 +1,4 @@
-package ru.study.chapter_02.pub_sub_app;
+package ru.study.chapter_02._02_pub_sub_app;
 
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.aop.interceptor.SimpleAsyncUncaughtExceptionHandler;

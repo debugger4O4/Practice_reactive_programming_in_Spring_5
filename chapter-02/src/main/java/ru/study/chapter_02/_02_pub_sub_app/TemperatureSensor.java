@@ -1,4 +1,4 @@
-package ru.study.chapter_02.pub_sub_app;
+package ru.study.chapter_02._02_pub_sub_app;
 
 import jakarta.annotation.PostConstruct;
 import org.springframework.context.ApplicationEventPublisher;

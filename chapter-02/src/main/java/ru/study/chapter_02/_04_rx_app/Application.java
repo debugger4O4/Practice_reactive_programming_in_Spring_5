@@ -1,4 +1,4 @@
-package ru.study.chapter_02.rx_app;
+package ru.study.chapter_02._04_rx_app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

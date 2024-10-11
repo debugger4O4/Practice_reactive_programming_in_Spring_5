@@ -1,4 +1,4 @@
-package ru.study.chapter_02.rxjava;
+package ru.study.chapter_02._02_rxjava;
 
 import org.junit.jupiter.api.Test;
 import rx.Observable;

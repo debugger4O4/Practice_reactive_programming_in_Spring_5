@@ -1,4 +1,4 @@
-package ru.study.chapter_02.observer;
+package ru.study.chapter_02._01_observer;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
