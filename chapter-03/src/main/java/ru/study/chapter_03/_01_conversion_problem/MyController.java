@@ -1,4 +1,4 @@
-package ru.study.chapter_03.conversion_problem;
+package ru.study.chapter_03._01_conversion_problem;
 
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;

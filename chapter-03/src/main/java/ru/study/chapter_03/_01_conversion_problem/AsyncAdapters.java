@@ -1,4 +1,4 @@
-package ru.study.chapter_03.conversion_problem;
+package ru.study.chapter_03._01_conversion_problem;
 
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.SettableListenableFuture;
