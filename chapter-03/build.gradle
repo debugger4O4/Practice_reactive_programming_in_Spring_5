@@ -27,14 +27,17 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-web-services'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
-// https://mvnrepository.com/artifact/io.reactivex.rxjava3/rxjava
+    // https://mvnrepository.com/artifact/io.reactivex.rxjava3/rxjava
     implementation 'io.reactivex.rxjava3:rxjava:3.1.9'
     // https://mvnrepository.com/artifact/org.mongodb/mongodb-driver-sync
-    implementation 'org.mongodb:mongodb-driver-sync:5.2.0'
+    implementation 'org.mongodb:mongodb-driver:3.8.2'
     // https://mvnrepository.com/artifact/org.springframework.data/spring-data-commons
     implementation 'org.springframework.data:spring-data-commons:3.3.4'
     // https://mvnrepository.com/artifact/org.springframework.data/spring-data-mongodb
     implementation 'org.springframework.data:spring-data-mongodb:4.3.4'
+    // https://mvnrepository.com/artifact/org.mongodb/mongodb-driver-reactivestreams
+    implementation 'org.mongodb:mongodb-driver-reactivestreams:1.9.2'
+    implementation 'io.reactivex:rxnetty-http:0.5.3-rc.1'
     implementation 'net.jcip:jcip-annotations:1.0'
     testImplementation 'junit:junit:4.13.1'
     compileOnly 'org.projectlombok:lombok'
@@ -43,6 +46,8 @@ dependencies {
     testImplementation 'io.projectreactor:reactor-test'
     // https://mvnrepository.com/artifact/org.reactivestreams/reactive-streams-tck
     testImplementation 'org.reactivestreams:reactive-streams-tck:1.0.4'
+// https://mvnrepository.com/artifact/de.flapdoodle.embed/de.flapdoodle.embed.mongo
+    testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo:3.4.11'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 

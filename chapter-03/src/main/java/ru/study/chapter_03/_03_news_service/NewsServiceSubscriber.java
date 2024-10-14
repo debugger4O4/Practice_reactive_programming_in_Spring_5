@@ -12,6 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Требования Reactive Streams в действии
+ * NewsServiceSubscriber - фактический подписчик
  */
 public class NewsServiceSubscriber implements Subscriber<NewsLetter> {
 
