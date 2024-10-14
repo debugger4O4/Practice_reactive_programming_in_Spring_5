@@ -20,16 +20,24 @@ package ru.study.chapter_03._03_news_service;
 
 //public class NewsServicePublisherTest extends PublisherVerification<NewsLetter>
 //        implements WithEmbeddedMongo {
-//
+    /*
+    PublisherVerification не имеет конструктора по умолчанию и требует предоставить от класса-потомка экземпляр
+    TestEnvironment, отвечающий за подготовку настроек для теста, таких как тайм-ауты и журналы отладки
+     */
 //    public NewsServicePublisherTest() {
 //        super(new TestEnvironment(2000, 2000));
 //    }
-//
+    /*
+    Создание экземпляра Publisher, который должен произвести указанное число элементов
+     */
 //    @Override
 //    public Publisher<NewsLetter> createPublisher(long elements) {
 //        MongoCollection<News> collection = mongoClient().getDatabase("news")
 //                .getCollection("news", News.class);
 //        int period = elements > 0 ? (int)(1000 / elements) : 1;
+        /*
+        Заполнить базу необходимым количеством новостей, чтобы удовлетворить требованиям теста
+         */
 //        prepareItemsInDatabase(elements);
 //
 //        Publisher<NewsLetter> newsServicePublisher = new NewsServicePublisher(smp ->
@@ -50,7 +58,10 @@ package ru.study.chapter_03._03_news_service;
 //
 //        return newsServicePublisher;
 //    }
-//
+    /*
+    Создает недействующий экземпляр NewsServicePublisher. Такой экземпляр можно получить, когда отсутствует доступ к
+    источнику данных
+     */
 //    @Override
 //    public Publisher<NewsLetter> createFailedPublisher() {
 //        MongoCollection<News> collection = mongoClient().getDatabase("news")
