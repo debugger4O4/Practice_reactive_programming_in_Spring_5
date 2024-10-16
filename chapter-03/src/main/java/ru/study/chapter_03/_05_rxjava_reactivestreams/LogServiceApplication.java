@@ -36,20 +36,37 @@ package ru.study.chapter_03._05_rxjava_reactivestreams;
 //        tempFile.deleteOnExit();
 //
 //        fileService.writeTo(tempFile.getAbsolutePath(), logsService.stream());
-//
+         /**
+          * Усовершенствования в Ratpack
+          * Ratpack — это легковесный фреймворк для разработки веб-приложений
+          * <b>
+          * Он предоставляет простой и эффективный способ построения высокопроизводительных и масштабируемых веб-приложений
+          * <b>
+          * Особенности фреймворка:
+          * <b>
+          * — асинхронный и реактивный подход к обработке запросов;
+          * — простота использования;
+          * — модульная архитектура;
+          * — интеграция с другими современными инструментами и технологиями;
+          * — поддержка функций непосредственно в коде приложения
+          */
+          // Начальное действие сервера и объявление обработчика запроса
 //        RatpackServer.start(server ->
 //                server.handlers(chain ->
 //                        chain.all(ctx -> {
-//
+                              // Объявление потока записей для журналирования
 //                            Publisher<String> logs = logsService.stream();
-//
+                              /*
+                              Подготовка ServerSentEvents. Используется на этапе отображения для преобразования
+                              элемнетов, присылаемых издателем Publisher в представление ServerSentEvents
+                               */
 //                            ServerSentEvents events = serverSentEvents(
 //                                    logs,
 //                                    event -> event.id(Objects::toString)
 //                                            .event("log")
 //                                            .data(Function.identity())
 //                            );
-//
+                              // Отображение потока данных
 //                            ctx.render(events);
 //                        })
 //                )

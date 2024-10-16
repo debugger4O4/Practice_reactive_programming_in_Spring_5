@@ -39,6 +39,8 @@ dependencies {
     implementation 'org.mongodb:mongodb-driver-reactivestreams:1.9.2'
     implementation 'io.reactivex:rxnetty-http:0.5.3-rc.1'
     implementation 'net.jcip:jcip-annotations:1.0'
+    // https://mvnrepository.com/artifact/io.vertx/vertx-core
+    implementation 'io.vertx:vertx-core:4.5.10'
     testImplementation 'junit:junit:4.13.1'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
@@ -46,7 +48,7 @@ dependencies {
     testImplementation 'io.projectreactor:reactor-test'
     // https://mvnrepository.com/artifact/org.reactivestreams/reactive-streams-tck
     testImplementation 'org.reactivestreams:reactive-streams-tck:1.0.4'
-// https://mvnrepository.com/artifact/de.flapdoodle.embed/de.flapdoodle.embed.mongo
+    // https://mvnrepository.com/artifact/de.flapdoodle.embed/de.flapdoodle.embed.mongo
     testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo:3.4.11'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
