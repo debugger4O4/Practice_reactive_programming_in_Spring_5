@@ -12,6 +12,8 @@ import java.util.Date;
 
 /**
  * Отчет за извлечение новостей из БД
+ * <b>
+ * Драйвер MongoDB с поддержкой Reactive Streams
  */
 public class DBPublisher implements Publisher<News> {
     private final MongoCollection<News> collection;
@@ -24,7 +26,12 @@ public class DBPublisher implements Publisher<News> {
 
     @Override
     public void subscribe(Subscriber<? super News> s) {
+        /*
+         FindPublisher предлагает гибкий API, позволяющий создавать выполняемые запросы с использование функционального
+         стиля программирования
+         */
         FindPublisher<News> findPublisher = collection.find(News.class);
+        // publishedOn - начальная дата для поиска новостей
         findPublisher.sort(Sorts.descending("publishedOn"))
                 .filter(Filters.and(
                         Filters.eq("category", category),
