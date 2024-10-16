@@ -2,9 +2,9 @@
 
 * `_01_conversion_problem` — веб-приложение (с соответствующими модульными тестами) демонстрирует, как конвертировать различные типы фьючерсов.
 * `async.vs.reactive` — модульные тесты сравнивают асинхронный и реактивный подходы («Publisher» — «CompletableFuture», «CompletableFuture» — «Publisher»).
-* `news-service.NewsServiceApp` — консольное приложение, демонстрирующее пользовательскую реализацию интерфейсов Reactive Streams («Издатель», «Подписчик», «Процессор»). **Работает с JDK8, с JDK11 не работает**.
+* `_03_news_service.NewsServiceApp` — консольное приложение, демонстрирующее пользовательскую реализацию интерфейсов Reactive Streams («Издатель», «Подписчик», «Процессор»). **Работает с JDK8, с JDK11 не работает**.
 * `_03_news_service` — модульные тесты news-service показывают, как протестировать собственную реализацию Reactive Streams с помощью TCK. Тесты основаны на TestNG. **Работает с JDK8, может не работать с JDK11**. Тесты могут длиться долго!
 * `_04_jdk9` — консольное приложение, демонстрирующее, как адаптировать типы `reactive-streams` к API Java Flow. **Для этого приложения требуется как минимум JDK9**.
 * `_02_push_vs_pull` — классы и модульные тесты, демонстрирующие различные подходы к извлечению данных (pull, пакетное получение, push, push-pull).
-* `rxjava-reactivestreams-ratpack.LogServiceApplication` — веб-приложение, демонстрирующее возможности Reactive Streams для интеграции реактивных библиотек (Spring, Ratpack, RxJava и т. д.).
+* `_05_rxjava_reactivestreams_ratpack.LogServiceApplication` — веб-приложение, демонстрирующее возможности Reactive Streams для интеграции реактивных библиотек (Spring, Ratpack, RxJava и т. д.).
 * `vert.x.VertxDemoApp` — веб-приложение, демонстрирующее интеграцию Verte.x с Reactive Streams.
