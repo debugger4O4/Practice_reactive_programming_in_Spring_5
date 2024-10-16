@@ -11,9 +11,16 @@ import ru.study.chapter_03._03_news_service.dto.NewsLetter;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ForkJoinPool;
 
+/**
+ * IdentityProcessorVerification - набор тестов для Processor, получающий и посылающий элементы одного типа
+ */
 public class SmartMulticastProcessorTest
         extends IdentityProcessorVerification<NewsLetter> {
 
+    /*
+    Передаем дополнительный параметр с количеством элементов, который обработчик Processor должен кэшировать
+    Реализация Processor кэширует только 1 элемент, поэтому это нужно явно указать перед началом тестирования
+     */
     public SmartMulticastProcessorTest() {
         super(new TestEnvironment(500, 500), 1000, 1);
     }
@@ -23,16 +30,30 @@ public class SmartMulticastProcessorTest
         return ForkJoinPool.commonPool();
     }
 
+    // Фабричный метод для создания новых элементов
     @Override
     public NewsLetter createElement(int element) {
         return new StubNewsLetter(element);
     }
 
+    /*
+    Возвращает проверяемый экземпляр Processor
+    bufferSize - кол-во элементов, который обработчик Processor должен кэшировать. Можно пропустить этот параметр, т.к.
+    размер внутреннего буффера уже указан в конструкторе
+     */
     @Override
     public Processor<NewsLetter, NewsLetter> createIdentityProcessor(int bufferSize) {
         return new SmartMulticastProcessor();
     }
 
+    /*
+    В реактивном программировании, координационная эмиссия - процесс распространения изменений через потоки данных.
+    Это означает, что изменение в одном месте системы автоматически вызывает изменения во всех зависимых частях.
+    В реактивном программировании, присваивание переменной новому значению не просто обновляет эту переменную,
+    но и автоматически распространяет изменения по всей системе, что позволяет быстро реагировать на изменения данных.
+    Это отличается от императивного программирования, где присваивание новой переменной приводит лишь к ее обновлению,
+    без распространения изменений
+     */
     @Override
     public boolean doesCoordinatedEmission() {
         return true;
