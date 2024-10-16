@@ -7,4 +7,4 @@
 * `_04_jdk9` — консольное приложение, демонстрирующее, как адаптировать типы `reactive-streams` к API Java Flow. **Для этого приложения требуется как минимум JDK9**.
 * `_02_push_vs_pull` — классы и модульные тесты, демонстрирующие различные подходы к извлечению данных (pull, пакетное получение, push, push-pull).
 * `_05_rxjava_reactivestreams_ratpack.LogServiceApplication` — веб-приложение, демонстрирующее возможности Reactive Streams для интеграции реактивных библиотек (Spring, Ratpack, RxJava и т. д.).
-* `vert.x.VertxDemoApp` — веб-приложение, демонстрирующее интеграцию Verte.x с Reactive Streams.
+* `_06_vert.x.VertxDemoApp` — веб-приложение, демонстрирующее интеграцию Verte.x с Reactive Streams.
