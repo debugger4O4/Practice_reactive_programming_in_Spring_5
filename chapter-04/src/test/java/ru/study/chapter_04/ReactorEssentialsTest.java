@@ -1,11 +1,12 @@
 package ru.study.chapter_04;
 
-import lombok.extern.slf4j.Slf4j;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.reactivestreams.Publisher;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import reactor.core.Disposable;
 import reactor.core.publisher.BaseSubscriber;
 import reactor.core.publisher.ConnectableFlux;
@@ -27,10 +28,10 @@ import java.util.function.Function;
 import java.util.stream.IntStream;
 
 
-@Slf4j
 public class ReactorEssentialsTest {
 
     private final Random random = new Random();
+    Logger log = LoggerFactory.getLogger(ReactorEssentialsTest.class);
 
     @Test
     @Ignore
@@ -137,21 +138,34 @@ public class ReactorEssentialsTest {
         disposable.dispose();
     }
 
+    /**
+     * Реализация своих подписчиков.
+     */
     @Test
     public void subscribingOnStream() throws Exception {
         Subscriber<String> subscriber = new Subscriber<String>() {
+            /*
+            Подписчик должен хранить ссылку на экземпляр Subscription, связывающий издатиля Publisher и подписчика
+            Subscriber. Используется volatile, потому что подписка и обработка данных могут происходить в разных потоках.
+            Обеспечивает правильность ссылки на экземпляр во всех потоках выполнения.
+             */
             volatile Subscription subscription;
 
+            // Информирование Subscriber об оформлении подписки обратным вызовом.
             @Override
             public void onSubscribe(Subscription s) {
+                // Сохранение подписки.
                 subscription = s;
                 log.info("initial request for 1 element");
+                // Посылка запроса с начальными требованиями.
                 subscription.request(1);
             }
 
+            // Регистрация полученных данных и запрос следующего элемента.
             public void onNext(String s) {
                 log.info("onNext: {}", s);
                 log.info("requesting 1 more element");
+                // Модель PULL. Управление обратным давлением.
                 subscription.request(1);
             }
 
@@ -163,7 +177,9 @@ public class ReactorEssentialsTest {
             }
         };
 
+        // Генерация простого потока с помощью just.
         Flux<String> stream = Flux.just("Hello", "world", "!");
+        // Подписка.
         stream.subscribe(subscriber);
 
         Thread.sleep(100);
@@ -397,6 +413,8 @@ public class ReactorEssentialsTest {
     static class Transaction {
         private static final Random random = new Random();
         private final int id;
+        Logger log = LoggerFactory.getLogger(Transaction.class);
+
 
         public Transaction(int id) {
             this.id = id;
@@ -689,6 +707,7 @@ public class ReactorEssentialsTest {
 
     static class Connection implements AutoCloseable {
         private final Random rnd = new Random();
+        static Logger log = LoggerFactory.getLogger(Connection.class);
 
         static Connection newConnection() {
             log.info("IO Connection created");
@@ -708,6 +727,7 @@ public class ReactorEssentialsTest {
         }
     }
 
+    // Более удачная версия подписчика по сравнению с subscribingOnStream().
     public static class MySubscriber<T> extends BaseSubscriber<T> {
 
         public void hookOnSubscribe(Subscription subscription) {
