@@ -78,6 +78,9 @@ public class ReactorEssentialsTest {
                 .block();
     }
 
+    /**
+     * Создание последовательностей Flux и Mono.
+     */
     @Test
     public void createFlux() {
         Flux<String> stream1 = Flux.just("Hello", "world");
@@ -94,7 +97,9 @@ public class ReactorEssentialsTest {
         Mono<String> stream5 = Mono.justOrEmpty(null);
         Mono<String> stream6 = Mono.justOrEmpty(Optional.empty());
 
+        // Обертка долго выполняющегося запроса.
         Mono<String> stream7 = Mono.fromCallable(() -> httpRequest());
+        // Предыдущая строчка с использованием синтаксиса Java 8.
         Mono<String> stream8 = Mono.fromCallable(this::httpRequest);
 
         StepVerifier.create(stream8)
