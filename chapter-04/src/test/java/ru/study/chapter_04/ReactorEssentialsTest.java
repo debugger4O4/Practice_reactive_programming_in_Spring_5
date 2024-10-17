@@ -123,12 +123,17 @@ public class ReactorEssentialsTest {
 
     @Test
     public void managingSubscription() throws InterruptedException {
+        // interval генерирует события с заданной периодичностью. Генерируемый поток данных не имеет конца.
         Disposable disposable = Flux.interval(Duration.ofMillis(50))
+                // При отмене подписки вывести в лог "Cancelled".
                 .doOnCancel(() -> log.info("Cancelled"))
+                // Подписка на поток, задается только сигнал onNext.
                 .subscribe(
                         data -> log.info("onNext: {}", data)
                 );
+        // Ждем некоторое время, чтобы получить несколько событий (200 / 50 = 4 события)
         Thread.sleep(200);
+        // Отмена подписки
         disposable.dispose();
     }
 
@@ -494,13 +499,18 @@ public class ReactorEssentialsTest {
 
     @Test
     public void managingDemand() {
+        // Генерация 100 значений.
         Flux.range(1, 100)
+                // Подписка на поток.
                 .subscribe(
                         data -> log.info("onNext: {}", data),
                         err -> { /* ignore */ },
                         () -> log.info("onComplete"),
+                        // Управление подпиской.
                         subscription -> {
+                            // Запрос 4 элемента.
                             subscription.request(4);
+                            // Отмена подписки.
                             subscription.cancel();
                         }
                 );
