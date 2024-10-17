@@ -14,7 +14,7 @@ public class ProjectReactor1x {
 //    Reactor reactor = Reactors.reactor()
 //            .env(env)
               /*
-               Переопределенная реализация Dispatcher, основанная на структуре RingBuffer
+               Переопределенная реализация Dispatcher, основанная на структуре RingBuffer.
                Реализация Dispatcher, основанного на структуре Ring Buffer, представляет собой способ организации
                очереди сообщений для управления потоками выполнения задач. В этом подходе используется структура
                данных, которая позволяет эффективно обрабатывать сообщения без необходимости использования сложных
@@ -49,4 +49,32 @@ public class ProjectReactor1x {
 //                    () -> reactor.notify("channel", Event.wrap("test")),
 //            0, 100, TimeUnit.MILLISECONDS
 //    );
+//
+//  ==================================================================================================================
+      // Создание экземпляров Environment и Reactor
+//    ...
+//
+//    Stream<String> stream = Streams.on(reactor, $("channel"));
+//    stream.map(s -> "Hello world " + s)
+//            .distinct()
+//            .filter((Predicate<String>) s -> s.length() > 2)
+//            .consume(System.out::println);
+      /*
+      Создание отложенного потока данных.
+      Deferred - специальная обертка, которая позволяет передавать в поток Stream события, созданные вручную.
+      Streams.defer(env) создает дополнительный экземпляр класса Reactor.
+       */
+//    Deferred<String, Stream<String>> input = Streams.defer(env);
+      /*
+      compose() - звлечение Stream из экземпляра Deferred
+       */
+//    Stream<String> compose = input.compose();
+//    compose.map(m -> m + " Hello World")
+//            .filter(m -> m.contains("1"))
+//            .map(Event::wrap)
+//            .consume(reactor.prepare("channel"));
+      // Генерация случайного элемента и передача его в экземпляр Deferred
+//    for (int i = 0; i < 1000; i++) {
+//        input.accept(UUID.randomUUID().toString());
+//    }
 }
