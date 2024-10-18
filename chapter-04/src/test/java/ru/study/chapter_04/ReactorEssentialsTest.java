@@ -261,9 +261,13 @@ public class ReactorEssentialsTest {
                         e.getT2().getT2()));
     }
 
+    /**
+     * Сокращение элементов потока.
+     */
     @Test
     public void findingIfThereIsEvenElements() {
         Flux.just(3, 5, 7, 9, 11, 15, 16, 17)
+                // any(Predicate) - проверяет не только значение, но и любое другое его свойство.
                 .any(e -> e % 2 == 0)
                 .subscribe(hasEvens -> log.info("Has evens: {}", hasEvens));
     }
@@ -271,30 +275,49 @@ public class ReactorEssentialsTest {
     @Test
     public void reduceExample() {
         Flux.range(1, 5)
+                // scan() - передача промежуточных результатов при агрегировании.
                 .scan(0, (acc, elem) -> acc + elem)
                 .subscribe(result -> log.info("Result: {}", result));
     }
 
     @Test
     public void runningAverageExample() {
+        // Размер скользящего окна для вычисления среднего значения. Последние 5 элементов.
         int bucketSize = 5;
+        // Генерация данных.
         Flux.range(1, 500)
+                // Присоединение индекса к каждому элементу.
                 .index()
+                /*
+                 Накопление последних 5ти элементов. Индексы используются для определения позиции в контейнере. На
+                 каждом шаге возвращается тот же самый контейнер с обновленными данными.
+                 */
                 .scan(
                         new int[bucketSize],
                         (acc, elem) -> {
                             acc[(int) (elem.getT1() % bucketSize)] = elem.getT2();
                             return acc;
                         })
+                /*
+                 Пропуск нескольких элементов с начала потока, чтобы накопить достаточный объем данных для вычислений
+                 скользящего среднего.
+                 */
                 .skip(bucketSize)
+                // Получение скользящего среднего.
                 .map(array -> Arrays.stream(array).sum() * 1.0 / bucketSize)
+                // Подписка, чтобы получать данные.
                 .subscribe(av -> log.info("Running average: {}", av));
     }
 
+    /*
+     then(), thenMany(), thenEmpty() завершаются с окончанием входящего потока. Игнорируют входящие элементы и
+     воспроизводят только сигналы завершения и ошибки.
+     */
     @Test
     public void thenOperator() {
         Flux.just(1, 2, 3)
                 .thenMany(Flux.just(5, 6))
+                // Получится только 4 и 5, даже при том, что 1, 2, 3 были сгенерированы и обработаны потоком.
                 .subscribe(e -> log.info("onNext: {}", e));
     }
 
