@@ -230,6 +230,9 @@ public class ReactorEssentialsTest {
         Thread.sleep(4000);
     }
 
+    /**
+     * Сбор данных из реактивных последовательностей.
+     */
     @Test
     public void collectSort() {
         Flux.just(1, 6, 2, 8, 3, 1, 5, 1)
