@@ -237,14 +237,24 @@ public class ReactorEssentialsTest {
                 .subscribe(System.out::println);
     }
 
+    /**
+     * Отображение элементов реактивных последовательностей.
+     */
     @Test
     public void indexElements() {
+        // Создание диапазон значений 2018 - 2022.
         Flux.range(2018, 5)
+                // Прикрепление текущего времени к каждому значению.
                 .timestamp()
+                // Прикрепление индекса к каждому значению.
                 .index()
+                // Подписка. Вывод значений в журнал.
                 .subscribe(e -> log.info("index: {}, ts: {}, value: {}",
+                        // Индекс.
                         e.getT1(),
+                        // Метка времени в удобночитаемом формате.
                         Instant.ofEpochMilli(e.getT2().getT1()),
+                        // Фактическое значение.
                         e.getT2().getT2()));
     }
 
