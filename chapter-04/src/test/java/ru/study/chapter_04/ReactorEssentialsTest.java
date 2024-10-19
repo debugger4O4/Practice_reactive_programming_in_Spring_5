@@ -321,12 +321,15 @@ public class ReactorEssentialsTest {
                 .subscribe(e -> log.info("onNext: {}", e));
     }
 
+    /**
+     * Комбинирование реактивных потоков.
+     */
     @Test
     public void combineLatestOperator() {
         Flux.concat(
-                Flux.range(1, 3),
-                Flux.range(4, 2),
-                Flux.range(6, 5)
+                Flux.range(1, 3), // 1 2 3
+                Flux.range(4, 2), // 4 5
+                Flux.range(6, 5)  // 6 7 8 9 10
         ).subscribe(e -> log.info("onNext: {}", e));
     }
 
