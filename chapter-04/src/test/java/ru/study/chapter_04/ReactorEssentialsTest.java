@@ -485,15 +485,30 @@ public class ReactorEssentialsTest {
                                */
     }
 
+    /**
+     * Материализация и дематериализация сигналов.
+     */
     @Test
     public void signalProcessing() {
         Flux.range(1, 3)
+                // Выполнение действия над каждым элементом сигнала в потоке.
                 .doOnNext(e -> System.out.println("data  : " + e))
+                // Преобразование потока данных в поток сигналов.
                 .materialize()
                 .doOnNext(e -> System.out.println("signal: " + e))
+                // Преобразование потока сигналов в поток данных.
                 .dematerialize()
                 .collectList()
-                .subscribe(r -> System.out.println("result: " + r));
+                .subscribe(r -> System.out.println("result: " + r)); /*
+                                                                         data : 1
+                                                                         signal : onNext(1)
+                                                                         data : 2
+                                                                         signal : onNext(2)
+                                                                         data : 3
+                                                                         signal : onNext(3)
+                                                                         signal : onComplete()
+                                                                         result : [1, 2, 3]
+                                                                      */
     }
 
     @Test
