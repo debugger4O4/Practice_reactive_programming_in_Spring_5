@@ -468,12 +468,21 @@ public class ReactorEssentialsTest {
         Thread.sleep(1000);
     }
 
+    /**
+     * Просмотр элементов при обработке последовательности.
+     */
     @Test
     public void doOnExample() {
         Flux.just(1, 2, 3)
                 .concatWith(Flux.error(new RuntimeException("Conn error")))
+                // Обработка всех сигналов реактивного потока.
                 .doOnEach(s -> log.info("signal: {}", s))
-                .subscribe();
+                .subscribe(); /*
+                                  signal: doOnEach_onNext(1)
+                                  signal: doOnEach_onNext(2)
+                                  signal: doOnEach_onNext(3)
+                                  signal: onError(java.lang.RuntimeException: Conn error)
+                               */
     }
 
     @Test
