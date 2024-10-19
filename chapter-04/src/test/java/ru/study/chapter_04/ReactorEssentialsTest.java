@@ -405,18 +405,37 @@ public class ReactorEssentialsTest {
                                                   */
     }
 
+    // Запрос у каждого пользователя список его любимых книг.
     private Flux<String> requestBooks(String user) {
+        // Генерация набора случайных целочисленных значений.
         return Flux.range(1, random.nextInt(3) + 1)
+                // Имитация задержки при обращении к БД.
                 .delayElements(Duration.ofMillis(3))
+                // Отображение каждого значения в названии книги.
                 .map(i -> "book-" + i);
     }
 
+    // Вызов requestBooks() для нескольких пользователей.
     @Test
     public void flatMapExample() throws InterruptedException {
         Flux.just("user-1", "user-2", "user-3")
+                /*
+                 Преобразование каждого входящего элемента в реактивный поток (T -> Flux<R>), а операция преобразования
+                 в плоское представление сливает сгенерированные реактивные последовательности в новую реактивную
+                 последовательность, передавая через нее элементы типа R.
+                 */
                 .flatMap(u -> requestBooks(u)
                         .map(b -> u + "/" + b))
-                .subscribe(r -> log.info("onNext: {}", r));
+                .subscribe(r -> log.info("onNext: {}", r)); /*
+                                                                [thread: parallel-3] onNext: user-3/book-1
+                                                                [thread: parallel-1] onNext: user-1/book-1
+                                                                [thread: parallel-1] onNext: user-2/book-1
+                                                                [thread: parallel-4] onNext: user-3/book-2
+                                                                [thread: parallel-5] onNext: user-2/book-2
+                                                                [thread: parallel-6] onNext: user-1/book-2
+                                                                [thread: parallel-7] onNext: user-3/book-3
+                                                                [thread: parallel-8] onNext: user-2/book-3
+                                                             */
 
         Thread.sleep(1000);
     }
