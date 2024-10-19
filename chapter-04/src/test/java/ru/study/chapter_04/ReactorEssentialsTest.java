@@ -333,28 +333,53 @@ public class ReactorEssentialsTest {
         ).subscribe(e -> log.info("onNext: {}", e));
     }
 
+    /**
+     * Пакетная обработка эдементов поток.
+     */
+    //  Буферизация целых чисел по размеру списк 4.
     @Test
     public void bufferBySize() {
         Flux.range(1, 13)
                 .buffer(4)
-                .subscribe(e -> log.info("onNext: {}", e));
+                .subscribe(e -> log.info("onNext: {}", e)); // [1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13]
     }
 
+    // Разбиение последовательности на кадры каждый раз, когда будет встречаться простое число.
     @Test
     public void windowByPredicate() {
+        // Генерация последовательности из последних 20ти целых чисел, начиная со 101.
         Flux<Flux<Integer>> fluxFlux = Flux.range(101, 20)
+                // Начало нового кадра до предката (Предикат == простое число).
                 .windowUntil(this::isPrime, true);
 
+        // Подписка с реактивным преобразованием для каждого подпотока.
         fluxFlux.subscribe(window -> window
+                // Преобразование в Mono<List<Integer>>.
                 .collectList()
-                .subscribe(e -> log.info("window: {}", e)));
+                // Создание отдельной подписки внутри Mono и регистрация полученных событий.
+                .subscribe(e -> log.info("window: {}", e))); /*
+                                                                [],
+                                                                [101, 102],
+                                                                [103, 104, 105, 106],
+                                                                [107, 108],
+                                                                [109, 110, 111, 112],
+                                                                [113, 114, 115, 116, 117, 118, 119, 120]
+                                                              */
     }
 
+    /*
+     Разделение последовательности на четные и нечетные значения и слежение за двумя последними значениями в каждой
+     группе.
+     */
     @Test
     public void groupByExample() {
         Flux.range(1, 7)
                 .groupBy(e -> e % 2 == 0 ? "Even" : "Odd")
                 .subscribe(groupFlux -> groupFlux
+                        /*
+                         Инициализация пустым списком. Каждый элемент из сгруппированнаго потока добавляется в список.
+                         Если в списке оказалось больше двух элементов, самые старые элементы удаляются.
+                         */
                         .scan(
                                 new LinkedList<>(),
                                 (list, elem) -> {
@@ -364,11 +389,20 @@ public class ReactorEssentialsTest {
                                     list.add(elem);
                                     return list;
                                 })
+                        // Удаление пустых контейнеров.
                         .filter(arr -> !arr.isEmpty())
                         .subscribe(data ->
                                 log.info("{}: {}",
                                         groupFlux.key(),
-                                        data)));
+                                        data))); /*
+                                                    Odd: [1],
+                                                    Even: [2],
+                                                    Odd: [1, 3],
+                                                    Even: [2, 4],
+                                                    Odd: [3, 5],
+                                                    Even: [4, 6],
+                                                    Odd: [5, 7]
+                                                  */
     }
 
     private Flux<String> requestBooks(String user) {
