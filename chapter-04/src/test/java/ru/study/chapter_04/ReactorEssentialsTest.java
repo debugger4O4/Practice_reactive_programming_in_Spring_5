@@ -344,6 +344,9 @@ public class ReactorEssentialsTest {
                 .subscribe(e -> log.info("onNext: {}", e)); // [1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13]
     }
 
+    /**
+     * Операторы flatMap, concatMap и flatMapSequential.
+     */
     // Разбиение последовательности на кадры каждый раз, когда будет встречаться простое число.
     @Test
     public void windowByPredicate() {
@@ -440,12 +443,27 @@ public class ReactorEssentialsTest {
         Thread.sleep(1000);
     }
 
+    /**
+     * Извлечение выборки элементов.
+     */
+    /*
+     sample и sampleTimeout применяется для извлечения выборки. Используятся, например в сценариях, когда требуется
+     высокая пропускная способность.
+     */
     @Test
     public void sampleExample() throws InterruptedException {
         Flux.range(1, 100)
                 .delayElements(Duration.ofMillis(1))
                 .sample(Duration.ofMillis(20))
-                .subscribe(e -> log.info("onNext: {}", e));
+                .subscribe(e -> log.info("onNext: {}", e)); /*
+                                                                onNext: 13
+                                                                onNext: 28
+                                                                onNext: 43
+                                                                onNext: 58
+                                                                onNext: 73
+                                                                onNext: 89
+                                                                onNext: 100
+                                                             */
 
         Thread.sleep(1000);
     }
