@@ -844,20 +844,39 @@ public class ReactorEssentialsTest {
          */
     }
 
+    /**
+     * Кэширование элементов потока.
+     */
     @Test
     public void cachingExample() throws InterruptedException {
+        // Создание холодного издателя, генерирующего несколько элементов.
         Flux<Integer> source = Flux.range(0, 2)
                 .doOnSubscribe(s ->
                         log.info("new subscription for the cold publisher"));
 
+        // Кэширование издателя на 1 секунду.
         Flux<Integer> cachedSource = source.cache(Duration.ofSeconds(1));
 
+        // Подключние первого подписчика.
         cachedSource.subscribe(e -> log.info("[S 1] onNext: {}", e));
+        // Подключние пого подписчика.
         cachedSource.subscribe(e -> log.info("[S 2] onNext: {}", e));
 
+        // Для истечения срока хранения данных в кэше.
         Thread.sleep(1200);
 
+        // Подключение третьего подписчика.
         cachedSource.subscribe(e -> log.info("[S 3] onNext: {}", e));
+        /*
+        new subscription for the cold publisher
+        [S 1] onNext: 0
+        [S 1] onNext: 1
+        [S 2] onNext: 0
+        [S 2] onNext: 1
+        new subscription for the cold publisher
+        [S 3] onNext: 0
+        [S 3] onNext: 1
+         */
     }
 
     @Test
