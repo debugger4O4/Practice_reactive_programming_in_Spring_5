@@ -552,6 +552,10 @@ public class ReactorEssentialsTest {
                         () -> log.info("Stream finished"));
     }
 
+    /**
+     * Обёртывание транзакций с помощью фабричного метода usingWhen.
+     * Transaction - упрощеная реактивная транзакция.
+     */
     static class Transaction {
         private static final Random random = new Random();
         private final int id;
@@ -563,11 +567,16 @@ public class ReactorEssentialsTest {
             log.info("[T: {}] created", id);
         }
 
+        // Создание новой транзакции.
         public static Mono<Transaction> beginTransaction() {
             return Mono.defer(() ->
                     Mono.just(new Transaction(random.nextInt(1000))));
         }
 
+        /*
+        Каждая транзакция имеет метод сохранения новых записей в пределах транзакции. Иногда процесс может  терпеть
+        неудачу из-зи каких-то внутренних проблем. insertRows() - потребляет и возвраает реактивные потоки.
+         */
         public Flux<String> insertRows(Publisher<String> rows) {
             return Flux.from(rows)
                     .delayElements(Duration.ofMillis(100))
@@ -580,7 +589,7 @@ public class ReactorEssentialsTest {
                     });
         }
 
-
+        // Подтверждение транзакции.
         public Mono<Void> commit() {
             return Mono.defer(() -> {
                 log.info("[T: {}] commit", id);
@@ -592,6 +601,7 @@ public class ReactorEssentialsTest {
             });
         }
 
+        // Откат транзакции.
         public Mono<Void> rollback() {
             return Mono.defer(() -> {
                 log.info("[T: {}] rollback", id);
@@ -604,20 +614,26 @@ public class ReactorEssentialsTest {
         }
     }
 
-    @Test
-    public void usingWhenExample() throws InterruptedException {
-        Flux.usingWhen(
-                Transaction.beginTransaction(),
-                transaction -> transaction.insertRows(Flux.just("A", "B")),
-                Transaction::commit
-        ).subscribe(
-                d -> log.info("onNext: {}", d),
-                e -> log.info("onError: {}", e.getMessage()),
-                () -> log.info("onComplete")
-        );
-
-        Thread.sleep(1000);
-    }
+//    @Test
+//    public void usingWhenExample() throws InterruptedException {
+          // usingWhen() - реактивная версия конструкции try-with-resources.
+//        Flux.usingWhen(
+                  // Асинхронное возвращение новой транзакции.
+//                Transaction.beginTransaction(),
+                  // Попытка вставки новых записей.
+//                transaction -> transaction.insertRows(Flux.just("A", "B")),
+                  // Подтверждение транзакции.
+//                Transaction::commit,
+                  // Откат при ошибке.
+//                Transaction::rollback
+//        ).subscribe(
+//                d -> log.info("onNext: {}", d),
+//                e -> log.info("onError: {}", e.getMessage()),
+//                () -> log.info("onComplete")
+//        );
+//
+//        Thread.sleep(1000);
+//    }
 
     /**
      * Фабричные методы push и create.
