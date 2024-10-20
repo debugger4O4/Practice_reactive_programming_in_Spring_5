@@ -816,6 +816,9 @@ public class ReactorEssentialsTest {
          */
     }
 
+    /**
+     * Широковещательная рассылка элементов потока данных.
+     */
     @Test
     public void connectExample() {
         Flux<Integer> source = Flux.range(0, 3)
@@ -829,6 +832,16 @@ public class ReactorEssentialsTest {
 
         log.info("all subscribers are ready, connecting");
         conn.connect();
+        /*
+        all subscribers are ready, connecting
+        new subscription for the cold publisher
+        [Subscriber 1] onNext: 0
+        [Subscriber 2] onNext: 0
+        [Subscriber 1] onNext: 1
+        [Subscriber 2] onNext: 1
+        [Subscriber 1] onNext: 2
+        [Subscriber 2] onNext: 2
+         */
     }
 
     @Test
