@@ -643,18 +643,44 @@ public class ReactorEssentialsTest {
         Thread.sleep(1000);
     }
 
+    /**
+     * Фабричный метод generate.
+     */
+    // Последовательность чисел Фиббоначчи.
     @Test
     public void usingGenerate() throws InterruptedException {
+        // Создание кастмоной реактивной последовательности.
         Flux.generate(
+                        // Tuples.of(0L, 1L) - начальное состояние.
                         () -> Tuples.of(0L, 1L),
                         (state, sink) -> {
                             log.info("generated value: {}", state.getT2());
+                            // Посылка сигнала onNext со ссылкой на второе значение из пары, описывающей состояние.
                             sink.next(state.getT2());
+                            // Вычисление новой пары.
                             long newValue = state.getT1() + state.getT2();
+                            // Обновление состояния.
                             return Tuples.of(state.getT2(), newValue);
                         })
+                // Извлечь только 7 элементов.
                 .take(7)
-                .subscribe(e -> log.info("onNext: {}", e));
+                // Подписка.
+                .subscribe(e -> log.info("onNext: {}", e)); /*
+                                                                generated value: 1
+                                                                onNext: 1
+                                                                generated value: 1
+                                                                onNext: 1
+                                                                generated value: 2
+                                                                onNext: 2
+                                                                generated value: 3
+                                                                onNext: 3
+                                                                generated value: 5
+                                                                onNext: 5
+                                                                generated value: 8
+                                                                onNext: 8
+                                                                generated value: 13
+                                                                onNext: 13
+                                                             */
 
         Thread.sleep(100);
     }
