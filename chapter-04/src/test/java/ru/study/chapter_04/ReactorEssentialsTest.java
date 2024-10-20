@@ -611,12 +611,18 @@ public class ReactorEssentialsTest {
         Thread.sleep(1000);
     }
 
+    /**
+     * Фабричные методы push и create.
+     */
     @Test
     public void usingPushOperator() throws InterruptedException {
+        // Адаптация существующего API под реактивщину.
         Flux.push(emitter -> IntStream
                         .range(2000, 100000)
                         .forEach(emitter::next))
+                // Задержка для имитации обраного давления.
                 .delayElements(Duration.ofMillis(1))
+                // Подписка.
                 .subscribe(e -> log.info("onNext: {}", e));
 
         Thread.sleep(1000);
@@ -624,9 +630,13 @@ public class ReactorEssentialsTest {
 
     @Test
     public void usingCreateOperator() throws InterruptedException {
+        /*
+         create() Действует как push() - создает экземпляр FLux на основе однопоточного производителя, но дополнительно
+         позволяет пересылать события из разных потоков выполнения, сериализуя экземпляр FluxSink.
+         */
         Flux.create(emitter -> {
                     emitter.onDispose(() -> log.info("Disposed"));
-                    // push events to emitter
+                    // Отправить события эмиттеру.
                 })
                 .subscribe(e -> log.info("onNext: {}", e));
 
