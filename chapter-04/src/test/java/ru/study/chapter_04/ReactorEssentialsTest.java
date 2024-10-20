@@ -785,6 +785,13 @@ public class ReactorEssentialsTest {
 //        Thread.sleep(5000);
 //    }
 
+    /**
+     * Горячие и холодные потоки.
+     */
+    /*
+     Холодный издатель. При появлении подписчика генерирует новую последовательность. Не генерирует никаких данных,
+     если нет подписчика.
+     */
     @Test
     public void coldPublisher() {
         Flux<String> coldPublisher = Flux.defer(() -> {
@@ -796,6 +803,14 @@ public class ReactorEssentialsTest {
         coldPublisher.subscribe(e -> log.info("onNext: {}", e));
         coldPublisher.subscribe(e -> log.info("onNext: {}", e));
         log.info("Data was generated twice for two subscribers");
+        /*
+        No data was generated so far
+        Generating new items
+        onNext: 63c8d67e-86e2-48fc-80a8-a9c039b3909c
+        Generating new items
+        onNext: 52232746-9b19-4b5e-b6b9-b0a2fa76079a
+        Data was generated twice for two subscribers
+         */
     }
 
     @Test
