@@ -728,26 +728,43 @@ public class ReactorEssentialsTest {
                 );
     }
 
+    /**
+     * Обработка ошибок.
+     */
+    // Ненадежная служба подбора рекомендаций.
     public Flux<String> recommendedBooks(String userId) {
+        // Отложение вычичления пока не появляется подписчик.
         return Flux.defer(() -> {
             if (random.nextInt(10) < 7) {
+                // Сдвиг сигналов во времени, так как служба может выбросить ошибку.
                 return Flux.<String>error(new RuntimeException("Conn error"))
                         .delaySequence(Duration.ofMillis(100));
             } else {
+                // Получение данных с задержкой в случае успеха.
                 return Flux.just("Blue Mars", "The Expanse")
                         .delayElements(Duration.ofMillis(50));
             }
+            // Логгирование.
         }).doOnSubscribe(s -> log.info("Request for {}", userId));
     }
 
+    // Клиент ненадежной службы подбора рекомендаций.
 //    @Test
 //    public void handlingErrors() throws InterruptedException {
+          // Генерация потока пользователей.
 //        Flux.just("user-1")
+                  // Вызов ненадежной службы для каждого польщзователя.
 //                .flatMap(user ->
 //                        recommendedBooks(user)
                                   // Невозможно разрешить метод retryBackoff()
+                                  /*
+                                   retryBackoff() - если вызов терпит неудачу, то повтор попытки не более 5-ти раз с
+                                   началом задержки в 100мс
+                                   */
 //                                .retryBackoff(5, Duration.ofMillis(100))
+                                  // Если повторные попытки не дали результатов спустя 3 сек., генерируется ошибка.
 //                                .timeout(Duration.ofSeconds(3))
+                                  // Рекомендации.
 //                                .onErrorResume(e -> Flux.just("The Martian"))
 //                )
 //                .subscribe(
@@ -755,6 +772,15 @@ public class ReactorEssentialsTest {
 //                        e -> log.warn("onError: {}", e.getMessage()),
 //                        () -> log.info("onComplete")
 //                );
+                    /*
+                        [time: 18:49:29.543] Request for user-1
+                        [time: 18:49:29.693] Request for user-1
+                        [time: 18:49:29.881] Request for user-1
+                        [time: 18:49:30.173] Request for user-1
+                        [time: 18:49:30.972] Request for user-1
+                        [time: 18:49:32.529] onNext: The Martian
+                        [time: 18:49:32.529] onComplete
+                     */
 //
 //        Thread.sleep(5000);
 //    }
