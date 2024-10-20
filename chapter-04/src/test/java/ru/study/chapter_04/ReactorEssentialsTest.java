@@ -764,7 +764,7 @@ public class ReactorEssentialsTest {
 //                                .retryBackoff(5, Duration.ofMillis(100))
                                   // Если повторные попытки не дали результатов спустя 3 сек., генерируется ошибка.
 //                                .timeout(Duration.ofSeconds(3))
-                                  // Рекомендации.
+                                  // Рекомендация по умолчанию.
 //                                .onErrorResume(e -> Flux.just("The Martian"))
 //                )
 //                .subscribe(
