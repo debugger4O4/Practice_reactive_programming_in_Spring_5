@@ -879,6 +879,9 @@ public class ReactorEssentialsTest {
          */
     }
 
+    /**
+     * Совместное использование элементов из потока.
+     */
     @Test
     public void replayExample() throws InterruptedException {
         Flux<Integer> source = Flux.range(0, 5)
@@ -886,6 +889,7 @@ public class ReactorEssentialsTest {
                 .doOnSubscribe(s ->
                         log.info("new subscription for the cold publisher"));
 
+        // Преобразование холодного издателя в горячего. Передача старых событий новому подписчику отсутствует.
         Flux<Integer> cachedSource = source.share();
 
         cachedSource.subscribe(e -> log.info("[S 1] onNext: {}", e));
@@ -893,6 +897,15 @@ public class ReactorEssentialsTest {
         cachedSource.subscribe(e -> log.info("[S 2] onNext: {}", e));
 
         Thread.sleep(1000);
+        /*
+        [S 1] onNext: 0
+        [S 1] onNext: 1
+        [S 1] onNext: 2
+        [S 1] onNext: 3
+        [S 2] onNext: 3
+        [S 1] onNext: 4
+        [S 2] onNext: 4
+         */
     }
 
     @Test
