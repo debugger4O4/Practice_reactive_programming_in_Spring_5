@@ -518,9 +518,12 @@ public class ReactorEssentialsTest {
                 .subscribe(e -> {}, e -> {}, () -> {}, s -> s.request(2));
     }
 
+    // Получение данных из соединения. Императивный стиль.
     @Test
     public void tryWithResources() {
+        // Создание нового соединения и автоматического его закрытия при выходе из текущего блока.
         try (Connection conn = Connection.newConnection()) {
+            // Обработка данных.
             conn.getData().forEach(
                     data -> log.info("Received data: {}", data)
             );
@@ -529,14 +532,19 @@ public class ReactorEssentialsTest {
         }
     }
 
+    // Получение данных из соединения. Реактивный стиль.
     @Test
     public void usingOperator() {
+        // using() - связывание жизненного цикла экземпляра Connection с жизненным циклом обертывающего потока данных.
         Flux<String> ioRequestResults = Flux.using(
+                // Создание нового соединения.
                 Connection::newConnection,
+                // Преобразование в реактивный поток.
                 connection -> Flux.fromIterable(connection.getData()),
+                // Закрытие соединения.
                 Connection::close
         );
-
+        // Подписка.
         ioRequestResults
                 .subscribe(
                         data -> log.info("Received data: {}", data),
@@ -875,15 +883,21 @@ public class ReactorEssentialsTest {
                 .noneMatch(n -> (number % n == 0));
     }
 
+    /**
+     * Передача одноразовых ресурсов в реактивные потоки.
+     * Connection - управление некоторыми внутренними ресурсами.
+     */
     static class Connection implements AutoCloseable {
         private final Random rnd = new Random();
         static Logger log = LoggerFactory.getLogger(Connection.class);
 
+        // Фабричный метод, всегда возвращающий новый экземпляр Connection.
         static Connection newConnection() {
             log.info("IO Connection created");
             return new Connection();
         }
 
+        // Имитация операции ввода/вывода.
         public Iterable<String> getData() {
             if (rnd.nextInt(10) < 3) {
                 throw new RuntimeException("Communication error");
@@ -891,6 +905,7 @@ public class ReactorEssentialsTest {
             return Arrays.asList("Some", "data");
         }
 
+        // Освобождение внутренних ресурсов.
         @Override
         public void close() {
             log.info("IO Connection closed");
