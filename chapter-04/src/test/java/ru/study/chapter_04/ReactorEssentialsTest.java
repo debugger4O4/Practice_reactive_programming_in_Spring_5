@@ -908,29 +908,57 @@ public class ReactorEssentialsTest {
          */
     }
 
+    /**
+     * Работа со временем.
+     */
     @Test
     public void elapsedExample() throws InterruptedException {
         Flux.range(0, 5)
+                // Задержка элементов.
                 .delayElements(Duration.ofMillis(100))
                 .elapsed()
-                .subscribe(e -> log.info("Elapsed {} ms: {}", e.getT1(), e.getT2()));
+                .subscribe(e -> log.info("Elapsed {} ms: {}", e.getT1(), e.getT2())); /*
+                                                                                         Elapsed 151 ms: 0
+                                                                                         Elapsed 105 ms: 1
+                                                                                         Elapsed 105 ms: 2
+                                                                                         Elapsed 103 ms: 3
+                                                                                         Elapsed 102 ms: 4
+                                                                                       */
 
         Thread.sleep(1000);
     }
 
+    /**
+     * Компоновка и преобразование реактивных потоков.
+     */
     @Test
     public void transformExample() {
+        // Преобраховане реактивного потока в другой реактивный поток, который тоже генерирует строковые значения.
         Function<Flux<String>, Flux<String>> logUserInfo =
                 stream -> stream
+                        // Нумерация входящих событий.
                         .index()
+                        // Запись в журнал информации о пользователе.
                         .doOnNext(tp ->
                                 log.info("[{}] User: {}", tp.getT1(), tp.getT2()))
+                        // Удаление номеров.
                         .map(Tuple2::getT2);
 
         Flux.range(1000, 3)
                 .map(i -> "user-" + i)
+                /*
+                 transform() - перенос общих последовательностей (когда необходимо использование одной и той же
+                 последовательности) в отдельные обекты и повторное использование их по мере необходимости.
+                 */
                 .transform(logUserInfo)
-                .subscribe(e -> log.info("onNext: {}", e));
+                .subscribe(e -> log.info("onNext: {}", e)); /*
+                                                               [0] User: user-1000
+                                                               onNext: user-1000
+                                                               [1] User: user-1001
+                                                               onNext: user-1001
+                                                               [2] User: user-1002
+                                                               onNext: user-1002
+                                                             */
     }
 
 //    @Test
@@ -944,12 +972,18 @@ public class ReactorEssentialsTest {
 //                        .doOnNext(e -> log.info("[path B] User: {}", e));
 //            }
 //        };
-          // Невозможно разрешить метод compose()
 //        Flux<String> publisher = Flux.just("1", "2")
+                  // compose() делает то же самое, что и transform() при появлении каждого нового пользователя
 //                .compose(logUserInfo);
 //
 //        publisher.subscribe();
 //        publisher.subscribe();
+          /*
+          [Path B] User: 1
+          [Path B] User: 2
+          [Path A] User: 1
+          [Path A] User: 2
+           */
 //    }
 
     public Mono<User> requestUserData(String userId) {
