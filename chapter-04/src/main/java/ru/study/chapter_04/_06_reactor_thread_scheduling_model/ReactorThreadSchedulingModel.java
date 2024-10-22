@@ -22,4 +22,35 @@ public class ReactorThreadSchedulingModel {
 //            .map(this::doBusinessLogic)    |> Поток выполнения планировщика.
 //            .subscribe()                   |
 //                                          _
+    /**
+     * Оператор subscribeOn.
+     */
+//    ObjectMapper objectMapper = ...;
+//    String json = "{ \"color\" : \"Black\", \"type\" : \"BMV\" }";
+//    Mono.fromCallable(() -> objectMapper.readValue(json, Car.class))
+//    ...
+    /*
+     Выполнение вызываемого объекта происходит в ходе выполнения метода subscribe. Это означает, что для смены рабочего
+     потока выполнения, в котором происходит вызов Callable, нельзя использовать publishOn.
+     */
+//    public void subscribe(Subscriber actual) {
+//        ...
+//        Subscription subscription = ...;
+//        try {
+//            T t = callable.call();
+//            if (t == null) {
+//                subscription.onComplete();
+//            } else {
+//                subscription.onNext(t);
+//                subscription.onComplete();
+//            }
+//        } catch (Throwable e) {
+//            actual.onError(Operators.onOperatorError(e, actual.currentContext()));
+//        }
+//    }
+      // subscribeOn() - определяет, в каком рабочем потоке будет выполнен этап подписки.
+//    Scheduler scheduler = ...;
+//    Mono.fromCallable(...)
+//            .subscribeOn(scheduler)
+//            .subscribe();
 }
