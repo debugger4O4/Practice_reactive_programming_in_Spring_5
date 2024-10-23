@@ -48,9 +48,20 @@ public class ReactorThreadSchedulingModel {
 //            actual.onError(Operators.onOperatorError(e, actual.currentContext()));
 //        }
 //    }
-      // subscribeOn() - определяет, в каком рабочем потоке будет выполнен этап подписки.
+    // subscribeOn() - определяет, в каком рабочем потоке будет выполнен этап подписки.
 //    Scheduler scheduler = ...;
 //    Mono.fromCallable(...)
 //            .subscribeOn(scheduler)
+//            .subscribe();
+    /**
+     * Оператор parallel.
+     */
+    // parallel() - разбивает один поток данных на несколько подпотоков и распределяет элементы между ними.
+//    Flux.range(0, 10000)
+//            .parallel()
+            // runOn() - указывает, в каком планировщике должна происходить обработка элементов.
+//            .runOn(Schedulers.parallel())
+//            .map()
+//            .filter()
 //            .subscribe();
 }
