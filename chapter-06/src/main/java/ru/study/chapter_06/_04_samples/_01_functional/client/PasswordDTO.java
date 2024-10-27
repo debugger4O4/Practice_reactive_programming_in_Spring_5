@@ -1,4 +1,4 @@
-package ru.study.chapter_06._04_samples.client;
+package ru.study.chapter_06._04_samples._01_functional.client;
 
 //import com.fasterxml.jackson.annotation.JsonCreator;
 //import com.fasterxml.jackson.annotation.JsonProperty;

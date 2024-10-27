@@ -1,4 +1,4 @@
-package ru.study.chapter_06._04_samples.client;
+package ru.study.chapter_06._04_samples._01_functional.client;
 
 /*
     Пример использования WebClient вместо устаревшего RestTemplate.
