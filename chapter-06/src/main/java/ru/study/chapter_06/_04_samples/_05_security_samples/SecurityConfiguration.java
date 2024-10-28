@@ -10,8 +10,12 @@ package ru.study.chapter_06._04_samples._05_security_samples;
 //import org.springframework.security.core.userdetails.User;
 //import org.springframework.security.crypto.password.PasswordEncoder;
 //import org.springframework.security.web.server.SecurityWebFilterChain;
-//
+/**
+ * Использование реактивной безопасности.
+ */
 //@Configuration
+// Импорт необходимых конфигураций.
+//@EnableReactiveMethodSecurity
 //public class SecurityConfiguration {
 //
 //    private static final Pattern PASSWORD_ALGORITHM_PATTERN = Pattern.compile("^\\{.+}.*$");
@@ -21,8 +25,9 @@ package ru.study.chapter_06._04_samples._05_security_samples;
 //    public MapReactiveUserDetailsService reactiveUserDetailsService(
 //            ObjectProvider<PasswordEncoder> passwordEncoder
 //    ) {
-//
+        // Реализация интерфейса в памяти.
 //        return new MapReactiveUserDetailsService(
+                // Настройка тестового пользователя для входа в систему.
 //                User.withUsername("user")
 //                        .password("user")
 //                        .passwordEncoder(p -> getOrDeducePassword(p, passwordEncoder.getIfAvailable()))
