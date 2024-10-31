@@ -2,7 +2,7 @@ package ru.study.chapter_06._10_memory_consumption_of_different_processing_model
 
 //@RestController
 //@RequestMapping("api/json")
-public class BigJSONProcessorController {
+//public class BigJSONProcessorController {
     /*
     Использование такой модели обработки позволяет начать возврат ответа намного быстрее, поскольку время между отправкой
     клиентом первого элемента и получением ответа R = Rnet + Rprocessing + Rnet.
@@ -22,4 +22,4 @@ public class BigJSONProcessorController {
 //                .filter(processedItem -> fiterItem(processedItem))
 //                .collect(toList());
 //    }
-}
+//}
