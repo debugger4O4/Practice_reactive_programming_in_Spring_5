@@ -40,38 +40,38 @@ public class ThreadLocalProblemShowcaseTest {
                 .blockLast();
 
         // Решение проблемы NullPointerException в shouldFailDueToDifferentThread().
-//        Flux.range(0, 10)
-//                .flatMap(k ->
+        Flux.range(0, 10)
+                .flatMap(k ->
                         // subscriberContext() - осуществление доступа к экземпляру Context в текущем потоке
-//                        Mono.subscriberContext()
+                        Mono.subscriberContext()
                                 // Обрщение к реализации Context в Reactor.
-//                                .doOnNext(context -> {
+                                .doOnNext(context -> {
                                     // Обращение к экземпляру Map экземпляра Context.
-//                                    Map<Object, Object> map = context.get("randoms");
+                                    Map<Object, Object> map = context.get("randoms");
                                     // Сохранение сгенерированных значений.
-//                                    map.put(k, new Random(k).nextGaussian());
-//                                })
+                                    map.put(k, new Random(k).nextGaussian());
+                                })
                                 // Возвращение начального параметра flatMap.
-//                                .thenReturn(k)
-//                )
-//                .publishOn(Schedulers.parallel())
-//                .flatMap(k ->
+                                .thenReturn(k)
+                )
+                .publishOn(Schedulers.parallel())
+                .flatMap(k ->
                         // Снова обращение к экземпляру Context, уже после выполнения потока выполнения.
-//                        Mono.subscriberContext()
-//                                .map(context -> {
+                        Mono.subscriberContext()
+                                .map(context -> {
                                     // Благополучное извлечение хранимого ассоциативного массива.
-//                                    Map<Object, Object> map = context.get("randoms");
+                                    Map<Object, Object> map = context.get("randoms");
                                     // Получение сгенерированного значения.
-//                                    return map.get(k);
-//                                })
-//                )
+                                    return map.get(k);
+                                })
+                )
                 /*
                  Добавление нового ассоциативного массива "randoms" во входящий поток в составе нового экземпляра
                  Context.
                  */
-//                .subscriberContext(context ->
-//                        context.put("randoms", new HashMap<>())
-//                )
-//                .block();
+                .subscriberContext(context ->
+                        context.put("randoms", new HashMap<>())
+                )
+                .block();
     }
 }

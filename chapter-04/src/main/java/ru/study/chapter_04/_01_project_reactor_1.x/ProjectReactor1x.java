@@ -9,10 +9,10 @@ public class ProjectReactor1x {
     Environment определяет контекст выполнения, который используется при создании экземпляра Dispatcher. Может возвращать
     разне типы диспетчеров - от действующих внутри процесса до распределенных.
      */
-//    Environment env = new Environment();
+    Environment env = new Environment();
     // Reactor - прямая реализация Reactor Pattern
-//    Reactor reactor = Reactors.reactor()
-//            .env(env)
+    Reactor reactor = Reactors.reactor()
+            .env(env)
               /*
                Переопределенная реализация Dispatcher, основанная на структуре RingBuffer.
                Реализация Dispatcher, основанного на структуре Ring Buffer, представляет собой способ организации
@@ -29,52 +29,52 @@ public class ProjectReactor1x {
                Dispatcher также может управлять приоритетами сообщений, чтобы гарантировать своевременную обработку
                важных событий.
                */
-//            .dispatcher(Environment.RING_BUFFER)
-//            .get();
+            .dispatcher(Environment.RING_BUFFER)
+            .get();
       /*
       Объявление селектора кнала и потребителя событий. Фильтрация событий производится с помощью строкового селектора,
       который определяет имя канала события. $ предлагают широкий выбор кретериев, вследствие чего окончательное
       выражение селектора может оказаться очень сложным.
        */
-//    reactor.on($("channel"),
-//      event -> System.out.println(event.getData()));
+    reactor.on($("channel"),
+      event -> System.out.println(event.getData()));
 
       /*
       Настройка прозводителей Event в форме планируемого задания, для чего используются возможности
       ScheduledExecutorService. В результате получается задание, выполняющееся периодически и посылающее события Event
       в конкретный канал, созданный экземпляром Reactor.
        */
-//    Executors.newSingleThreadScheduledExecutor()
-//            .scheduleAtFixedRate(
-//                    () -> reactor.notify("channel", Event.wrap("test")),
-//            0, 100, TimeUnit.MILLISECONDS
-//    );
-//
+    Executors.newSingleThreadScheduledExecutor()
+            .scheduleAtFixedRate(
+                    () -> reactor.notify("channel", Event.wrap("test")),
+            0, 100, TimeUnit.MILLISECONDS
+    );
+
 //  ==================================================================================================================
       // Создание экземпляров Environment и Reactor
 //    ...
-//
-//    Stream<String> stream = Streams.on(reactor, $("channel"));
-//    stream.map(s -> "Hello world " + s)
-//            .distinct()
-//            .filter((Predicate<String>) s -> s.length() > 2)
-//            .consume(System.out::println);
+
+    Stream<String> stream = Streams.on(reactor, $("channel"));
+    stream.map(s -> "Hello world " + s)
+            .distinct()
+            .filter((Predicate<String>) s -> s.length() > 2)
+            .consume(System.out::println);
       /*
       Создание отложенного потока данных.
       Deferred - специальная обертка, которая позволяет передавать в поток Stream события, созданные вручную.
       Streams.defer(env) создает дополнительный экземпляр класса Reactor.
        */
-//    Deferred<String, Stream<String>> input = Streams.defer(env);
+    Deferred<String, Stream<String>> input = Streams.defer(env);
       /*
       compose() - звлечение Stream из экземпляра Deferred
        */
-//    Stream<String> compose = input.compose();
-//    compose.map(m -> m + " Hello World")
-//            .filter(m -> m.contains("1"))
-//            .map(Event::wrap)
-//            .consume(reactor.prepare("channel"));
+    Stream<String> compose = input.compose();
+    compose.map(m -> m + " Hello World")
+            .filter(m -> m.contains("1"))
+            .map(Event::wrap)
+            .consume(reactor.prepare("channel"));
       // Генерация случайного элемента и передача его в экземпляр Deferred
-//    for (int i = 0; i < 1000; i++) {
-//        input.accept(UUID.randomUUID().toString());
-//    }
+    for (int i = 0; i < 1000; i++) {
+        input.accept(UUID.randomUUID().toString());
+    }
 }

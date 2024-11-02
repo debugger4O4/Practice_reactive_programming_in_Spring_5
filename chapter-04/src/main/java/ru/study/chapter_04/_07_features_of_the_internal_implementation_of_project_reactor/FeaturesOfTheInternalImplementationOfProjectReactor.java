@@ -9,13 +9,13 @@ public class FeaturesOfTheInternalImplementationOfProjectReactor {
      * Макрослияние - оптимизация на этапе сборки.
      */
     // Обработка элемента передается для обработки в другой поток выполнения сразу после его создания.
-//    Flux.just(1)              |
-//            .publishOn(...)   |> дорого.
-//            .map(...)         |
+    Flux.just(1)              |
+            .publishOn(...)   |> дорого.
+            .map(...)         |
 
-//    Flux.just(1)              |
-//            .subscribeOn(...)   |> дешего.
-//            .map(...)         |
+    Flux.just(1)              |
+            .subscribeOn(...) |> дешего.
+            .map(...)         |
     /**
      * Микрослияние - оптимизация этапа выполнения и повторное использование ресурсов.
      */
@@ -26,14 +26,14 @@ public class FeaturesOfTheInternalImplementationOfProjectReactor {
      ConditionalSubscriber - организовывает проверку условия на стороне источника и передачу необходимого количества
      элементов без дополнительных вызовов request().
      */
-//    Flux.from(factory)
-//            .filter(inspectionDepartment)
-//            .subscribe(store);
+    Flux.from(factory)
+            .filter(inspectionDepartment)
+            .subscribe(store);
 
     // Цепочка операторов с несколькими асинхронными границами.
-//    Flux.just(1, 2, 3)
-//            .publishOn(Schedulers, parallel())
-//            .concatMap(i -> Flux.range(0, i)
-//                .publishOn(Schedulers.parallel()))
-//            .subscribe();
+    Flux.just(1, 2, 3)
+            .publishOn(Schedulers, parallel())
+            .concatMap(i -> Flux.range(0, i)
+                .publishOn(Schedulers.parallel()))
+            .subscribe();
 }

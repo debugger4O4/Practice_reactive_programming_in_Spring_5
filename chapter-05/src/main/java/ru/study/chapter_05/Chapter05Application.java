@@ -10,26 +10,26 @@ package ru.study.chapter_05;
  * <br>
  * Входная точка: http://localhost:8080
  */
-//@Slf4j
-//@SpringBootApplication
-//@RequiredArgsConstructor
-//public class Chapter5ReactiveApplication {
-//
-//    public static void main(String[] args) {
-//        SpringApplication.run(Chapter5ReactiveApplication.class, args);
-//    }
-//
-//    @Bean
-//    public RouterFunction<ServerResponse> routerFunction(
-//            SensorReadingRepository sensorReadingRepository
-//    ) {
-//        return RouterFunctions
-//                .route(
-//                        GET("/"),
-//                        serverRequest -> ServerResponse
-//                                .ok()
-//                                .contentType(MediaType.APPLICATION_STREAM_JSON)
-//                                .body(sensorReadingRepository.findBy(), SensorsReadings.class));
-//    }
-//
-//}
+@Slf4j
+@SpringBootApplication
+@RequiredArgsConstructor
+public class Chapter5ReactiveApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(Chapter5ReactiveApplication.class, args);
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> routerFunction(
+            SensorReadingRepository sensorReadingRepository
+    ) {
+        return RouterFunctions
+                .route(
+                        GET("/"),
+                        serverRequest -> ServerResponse
+                                .ok()
+                                .contentType(MediaType.APPLICATION_STREAM_JSON)
+                                .body(sensorReadingRepository.findBy(), SensorsReadings.class));
+    }
+
+}

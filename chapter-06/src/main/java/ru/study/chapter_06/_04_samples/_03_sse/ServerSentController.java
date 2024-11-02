@@ -10,36 +10,36 @@ package ru.study.chapter_06._04_samples._03_sse;
 /**
  * Реактивный поток SSE(Server-Sent Event) и легковесная замена WebSocket.
  */
-//@RestController
-//public class ServerSentController {
-//
-//    private Map<String, StocksService> stringStocksServiceMap;
-//
-//    @GetMapping("/sse/stocks")
-//    public Flux<ServerSentEvent<?>> streamStocks() {
-//        return Flux
-//                .fromIterable(stringStocksServiceMap.values())
+@RestController
+public class ServerSentController {
+
+    private Map<String, StocksService> stringStocksServiceMap;
+
+    @GetMapping("/sse/stocks")
+    public Flux<ServerSentEvent<?>> streamStocks() {
+        return Flux
+                .fromIterable(stringStocksServiceMap.values())
                 // Объединение всех доступных источников информации и передача их клиенту.
-//                .flatMap(StocksService::stream)
+                .flatMap(StocksService::stream)
                 // Преобразование каждого StockItem в ServerSentEvent.
-//                .<ServerSentEvent<?>>map(item ->
+                .<ServerSentEvent<?>>map(item ->
                         // Передача билдеру id и название события для настройки экземпляра.
-//                        ServerSentEvent
-//                                .builder(item)
-//                                .event("StockItem")
-//                                .id(item.getId())
-//                                .build()
-//                )
+                        ServerSentEvent
+                                .builder(item)
+                                .event("StockItem")
+                                .id(item.getId())
+                                .build()
+                )
                 /*
                  Запуск потока данных сконкретным экземпляром ServerSentEvent, который объявляет клиенту доступные
                  каналы информации.
                  */
-//                .startWith(
-//                        ServerSentEvent
-//                                .builder()
-//                                .event("Stocks")
-//                                .data(stringStocksServiceMap.keySet())
-//                                .build()
-//                );
-//    }
-//}
+                .startWith(
+                        ServerSentEvent
+                                .builder()
+                                .event("Stocks")
+                                .data(stringStocksServiceMap.keySet())
+                                .build()
+                );
+    }
+}

@@ -4,16 +4,16 @@ package ru.study.chapter_06._10_memory_consumption_of_different_processing_model
  * Потребление памяти разными моделями обработки.
  * BlockingDemoApplication - имитация сетевых вызовов и другой активности, связанной с вводом/выводом.
  */
-//@RestController
-//@SpringBootApplication
-//public class BlockingDemoApplication {
-//    ...
-//    @GetMapping("/endpoint")
-//    public String get() throws InterruptedException {
-//        Thread.sleep(1000);
-//        return "Hello!";
-//    }
-//}
+@RestController
+@SpringBootApplication
+public class BlockingDemoApplication {
+    ...
+    @GetMapping("/endpoint")
+    public String get() throws InterruptedException {
+        Thread.sleep(1000);
+        return "Hello!";
+    }
+}
 
 /*
 Запуск с настройками java -Xmx2g

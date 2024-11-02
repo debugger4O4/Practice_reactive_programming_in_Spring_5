@@ -3,16 +3,16 @@ package ru.study.chapter_06._10_memory_consumption_of_different_processing_model
 /**
  * TomcatNoBlockingDemoApplication - моделировагние неблокрующего и асинхронного ввода/вывода.
  */
-//@RestController
-//@SpringBoootApplication
-//public class TomcatNoBlockingDemoApplication {
-//    ...
-//    @GetMpping("/endpoint")
-//    public Mono<String> get() {
-//        return Monon.just("Hello!")
-//                .delaySubscription(Duration.ofSeconds(1));
-//    }
-//}
+@RestController
+@SpringBoootApplication
+public class TomcatNoBlockingDemoApplication {
+    ...
+    @GetMpping("/endpoint")
+    public Mono<String> get() {
+        return Monon.just("Hello!")
+                .delaySubscription(Duration.ofSeconds(1));
+    }
+}
 
 /*
 Запуск с настройками java -Xmx2g
