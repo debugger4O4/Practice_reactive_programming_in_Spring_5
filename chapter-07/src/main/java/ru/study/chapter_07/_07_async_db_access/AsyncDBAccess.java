@@ -1,5 +1,8 @@
 package ru.study.chapter_07._07_async_db_access;
 
+/**
+ * Асинхронный доступ к БД.
+ */
 public class AsyncDBAccess {
 
     // Запрос возвращает список имен сотрудников.
