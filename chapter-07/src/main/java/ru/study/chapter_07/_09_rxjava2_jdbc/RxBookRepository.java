@@ -1,4 +1,4 @@
-package ru.study.chapter_07._9_rxjava2_jdbc;
+package ru.study.chapter_07._09_rxjava2_jdbc;
 
 public class RxBookRepository {
 
