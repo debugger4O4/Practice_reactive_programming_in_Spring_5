@@ -14,4 +14,4 @@ file:///tmp/function-registry/functions/uppercase.fun \
 \
     --spring.cloud.function.imports.wolrdadder.type=function \
     --spring.cloud.function.imports.wolrdadder.location=\
-file:///tmp/function-registry/functions/wolrdadder.fun \
+file:///tmp/function-registry/functions/wolrdadder.fun
