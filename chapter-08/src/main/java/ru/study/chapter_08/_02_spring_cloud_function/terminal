@@ -1,0 +1,6 @@
+Выгрузка функции, принимающей и возвращающей Flux<String>.
+curl -X POST -H "Content-Type: text/plain" \
+    -d "f->f.map(s->s.toUpperCase())" \
+    localhost:8080/function/uppercase\
+    ?inputType=Flux%3CString%3E\
+    &outputType=Flux%3CString%3E\

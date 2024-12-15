@@ -1,0 +1,21 @@
+spring.cloud.function: # Пространство имен свойств Spring Cloud Function.
+  compile: # Пространство имен, связанное с компиляцией функции во время выполнения.
+    payments: # Ключ имени, под которым функция будет видна в контейнер Spring IoC
+      type: supplier # Определение типа функции.
+      lambda: ()->Flux.just(new org.TestPayment()) # Определение лямбды.
+
+spring.cloud.function:
+  task: # Пространство имен для настройки задач.
+    supplier: payments
+    function: validate|process
+    consumer: print
+  compile:
+    print:
+      type: consumer
+      lambda: System.out::println
+      inputType: Object
+  process:
+    type: function
+      lambda: (flux)->flux
+      inputType: Flux<Payment>
+      outputType: Flux<Payment>
