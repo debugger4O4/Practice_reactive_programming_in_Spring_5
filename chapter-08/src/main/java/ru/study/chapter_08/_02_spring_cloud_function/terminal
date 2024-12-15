@@ -4,3 +4,14 @@ curl -X POST -H "Content-Type: text/plain" \
     localhost:8080/function/uppercase\
     ?inputType=Flux%3CString%3E\
     &outputType=Flux%3CString%3E\
+
+Импорт функции uppercase - преобразование всех символов в верхний регистр,
+               worldadder - добавляет окончание world к заданной строке.
+java -jar function-web-template.jar \
+    --spring.cloud.function.imports.uppercase.type=function \
+    --spring.cloud.function.imports.uppercase.location=\
+file:///tmp/function-registry/functions/uppercase.fun \
+\
+    --spring.cloud.function.imports.wolrdadder.type=function \
+    --spring.cloud.function.imports.wolrdadder.location=\
+file:///tmp/function-registry/functions/wolrdadder.fun \
