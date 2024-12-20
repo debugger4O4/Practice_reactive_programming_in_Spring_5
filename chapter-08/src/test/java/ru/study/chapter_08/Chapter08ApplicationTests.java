@@ -1,4 +1,4 @@
-package ru.study.chapter_07;
+package ru.study.chapter_08;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

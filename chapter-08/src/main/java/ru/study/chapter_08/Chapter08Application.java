@@ -1,4 +1,4 @@
-package ru.study.chapter_07;
+package ru.study.chapter_08;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
