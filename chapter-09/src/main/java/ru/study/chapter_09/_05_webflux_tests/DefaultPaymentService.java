@@ -31,6 +31,10 @@ public class DefaultPaymentService implements PaymentService {
 
     @Override
     public Flux<Payment> list() {
-        return ReactiveSecurity
+        return ReactiveSecurityContextHolder
+                .getContext()
+                .map(SecurityContext::getAuthentication)
+                .map(Principal::getName)
+                .flatMapMany(PaymentRepository::findAllByUser);
     }
 }
