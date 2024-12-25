@@ -22,4 +22,20 @@ public class Tests {
                 .expectComplete()
                 .verify();
     }
+
+    /*
+     Проверка некоторого предположения относительно веб-сайта http://www.bbc.com и терпение неудачи из-за разницы между
+     ожидаемым и фактическим ответом.
+     */
+    WebTestClient webTestClient = WebTestClient
+            .bindToServer()
+            .baseUrl("http://www.bbc.com")
+            .build();
+
+    webTestClient
+            .get()
+            .exchange()
+            .expectStatus().is2xxSuccessful()
+            .expectHeader().exists("ETag")
+            .expectBody().json("{}")
 }
