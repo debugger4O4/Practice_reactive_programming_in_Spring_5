@@ -1,0 +1,9 @@
+# Information about the application.
+info:
+  name: "Reactive Spring App"
+  mode: "testing"
+  authors: "oleg & igor"
+  service-version: "2.0"
+  features:
+    feature-a: "enabled"
+    feature-b: "disabled"
